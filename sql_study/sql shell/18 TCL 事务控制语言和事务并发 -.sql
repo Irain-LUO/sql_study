@@ -58,6 +58,19 @@ delete from tab where id=4;  # 因为rollback回滚，没有删除id=4的数据
 rollback to id1;  # 回滚到savepoint节点位置。rollback与savepoint之间的执行无效
 select * from tab;
 
+#### 2.4 delete与truncate在事务的作用
+##### 2.4.1 delete删除操作，无效
+set autocommit=0;
+start transaction;  # 开启事务
+delete from tab;
+rollback;
+select * from tab;
+##### 2.4.2 truncate删除操作，有效
+set autocommit=0;
+start transaction;  # 开启事务
+truncate table tab;
+rollback;
+select * from tab;
 
 
 /*
